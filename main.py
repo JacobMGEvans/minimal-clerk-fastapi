@@ -28,6 +28,7 @@ class LoginRequest(BaseModel):
     password: str
     username: str
 
+# For custom flow signup implementations 
 @app.post("/signup")
 async def signup(request: SignupRequest):
     try:
@@ -42,7 +43,7 @@ async def signup(request: SignupRequest):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-# simulate fontend behavior -- NEEED FRONTEND FOR FAPI
+# Simulate fontend behavior for testing -- NEEED FRONTEND FOR FAPI
 @app.post("/login")
 async def login(request: LoginRequest):
     try:
@@ -66,6 +67,7 @@ async def login(request: LoginRequest):
 
         if not verified_user:
             raise HTTPException(status_code=401, detail="Invalid credentials")
+        # Only works with Development Keys 
         session = clerk.sessions.create_session(request={"user_id": str(user_id)})
         
         if not session:
